@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CellPhoneVotingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblMainMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MainMenu" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblPoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PloesName" Type="nvarchar" MaxLength="250" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="AddedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblPolesDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PolesId" Type="int" />
+          <Property Name="OptionText" Type="nvarchar" MaxLength="250" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RolesName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tblSubMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubMenu" Type="nvarchar" MaxLength="50" />
+          <Property Name="Controller" Type="nvarchar" MaxLength="50" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" />
+          <Property Name="MainMenuId" Type="int" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="tblVotes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PolesDetailsId" Type="int" />
+          <Property Name="UserId" Type="bigint" />
+          <Property Name="VoteTime" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_tblLogin_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="0..1" />
+          <End Role="tblLogin" Type="Self.tblLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblLogin">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPolesDetails_tblPoles">
+          <End Role="tblPoles" Type="Self.tblPoles" Multiplicity="0..1" />
+          <End Role="tblPolesDetails" Type="Self.tblPolesDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblPolesDetails">
+              <PropertyRef Name="PolesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSubMenu_tblMainMenu">
+          <End Role="tblMainMenu" Type="Self.tblMainMenu" Multiplicity="0..1" />
+          <End Role="tblSubMenu" Type="Self.tblSubMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMainMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblSubMenu">
+              <PropertyRef Name="MainMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSubMenu_tblRoles">
+          <End Role="tblRoles" Type="Self.tblRoles" Multiplicity="0..1" />
+          <End Role="tblSubMenu" Type="Self.tblSubMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblSubMenu">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CellPhoneVotingModelStoreContainer">
+          <EntitySet Name="tblLogin" EntityType="Self.tblLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMainMenu" EntityType="Self.tblMainMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPoles" EntityType="Self.tblPoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPolesDetails" EntityType="Self.tblPolesDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblRoles" EntityType="Self.tblRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSubMenu" EntityType="Self.tblSubMenu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblVotes" EntityType="Self.tblVotes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblLogin_tblRoles" Association="Self.FK_tblLogin_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblLogin" EntitySet="tblLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPolesDetails_tblPoles" Association="Self.FK_tblPolesDetails_tblPoles">
+            <End Role="tblPoles" EntitySet="tblPoles" />
+            <End Role="tblPolesDetails" EntitySet="tblPolesDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSubMenu_tblMainMenu" Association="Self.FK_tblSubMenu_tblMainMenu">
+            <End Role="tblMainMenu" EntitySet="tblMainMenu" />
+            <End Role="tblSubMenu" EntitySet="tblSubMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSubMenu_tblRoles" Association="Self.FK_tblSubMenu_tblRoles">
+            <End Role="tblRoles" EntitySet="tblRoles" />
+            <End Role="tblSubMenu" EntitySet="tblSubMenu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CellPhoneVotingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CellPhoneVotingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblLogins" EntityType="CellPhoneVotingModel.tblLogin" />
+          <EntitySet Name="tblMainMenus" EntityType="CellPhoneVotingModel.tblMainMenu" />
+          <EntitySet Name="tblPoles" EntityType="CellPhoneVotingModel.tblPole" />
+          <EntitySet Name="tblPolesDetails" EntityType="CellPhoneVotingModel.tblPolesDetail" />
+          <EntitySet Name="tblRoles" EntityType="CellPhoneVotingModel.tblRole" />
+          <EntitySet Name="tblSubMenus" EntityType="CellPhoneVotingModel.tblSubMenu" />
+          <EntitySet Name="tblVotes" EntityType="CellPhoneVotingModel.tblVote" />
+          <AssociationSet Name="FK_tblLogin_tblRoles" Association="CellPhoneVotingModel.FK_tblLogin_tblRoles">
+            <End Role="tblRole" EntitySet="tblRoles" />
+            <End Role="tblLogin" EntitySet="tblLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSubMenu_tblMainMenu" Association="CellPhoneVotingModel.FK_tblSubMenu_tblMainMenu">
+            <End Role="tblMainMenu" EntitySet="tblMainMenus" />
+            <End Role="tblSubMenu" EntitySet="tblSubMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPolesDetails_tblPoles" Association="CellPhoneVotingModel.FK_tblPolesDetails_tblPoles">
+            <End Role="tblPole" EntitySet="tblPoles" />
+            <End Role="tblPolesDetail" EntitySet="tblPolesDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSubMenu_tblRoles" Association="CellPhoneVotingModel.FK_tblSubMenu_tblRoles">
+            <End Role="tblRole" EntitySet="tblRoles" />
+            <End Role="tblSubMenu" EntitySet="tblSubMenus" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="tblRole" Relationship="CellPhoneVotingModel.FK_tblLogin_tblRoles" FromRole="tblLogin" ToRole="tblRole" />
+        </EntityType>
+        <EntityType Name="tblMainMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MainMenu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblSubMenus" Relationship="CellPhoneVotingModel.FK_tblSubMenu_tblMainMenu" FromRole="tblMainMenu" ToRole="tblSubMenu" />
+        </EntityType>
+        <EntityType Name="tblPole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PloesName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="AddedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblPolesDetails" Relationship="CellPhoneVotingModel.FK_tblPolesDetails_tblPoles" FromRole="tblPole" ToRole="tblPolesDetail" />
+        </EntityType>
+        <EntityType Name="tblPolesDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PolesId" Type="Int32" />
+          <Property Name="OptionText" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblPole" Relationship="CellPhoneVotingModel.FK_tblPolesDetails_tblPoles" FromRole="tblPolesDetail" ToRole="tblPole" />
+        </EntityType>
+        <EntityType Name="tblRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RolesName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblLogins" Relationship="CellPhoneVotingModel.FK_tblLogin_tblRoles" FromRole="tblRole" ToRole="tblLogin" />
+          <NavigationProperty Name="tblSubMenus" Relationship="CellPhoneVotingModel.FK_tblSubMenu_tblRoles" FromRole="tblRole" ToRole="tblSubMenu" />
+        </EntityType>
+        <EntityType Name="tblSubMenu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubMenu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MainMenuId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="tblMainMenu" Relationship="CellPhoneVotingModel.FK_tblSubMenu_tblMainMenu" FromRole="tblSubMenu" ToRole="tblMainMenu" />
+          <NavigationProperty Name="tblRole" Relationship="CellPhoneVotingModel.FK_tblSubMenu_tblRoles" FromRole="tblSubMenu" ToRole="tblRole" />
+        </EntityType>
+        <EntityType Name="tblVote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PolesDetailsId" Type="Int32" />
+          <Property Name="UserId" Type="Int64" />
+          <Property Name="VoteTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_tblLogin_tblRoles">
+          <End Type="CellPhoneVotingModel.tblRole" Role="tblRole" Multiplicity="0..1" />
+          <End Type="CellPhoneVotingModel.tblLogin" Role="tblLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblLogin">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSubMenu_tblMainMenu">
+          <End Type="CellPhoneVotingModel.tblMainMenu" Role="tblMainMenu" Multiplicity="0..1" />
+          <End Type="CellPhoneVotingModel.tblSubMenu" Role="tblSubMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMainMenu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblSubMenu">
+              <PropertyRef Name="MainMenuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPolesDetails_tblPoles">
+          <End Type="CellPhoneVotingModel.tblPole" Role="tblPole" Multiplicity="0..1" />
+          <End Type="CellPhoneVotingModel.tblPolesDetail" Role="tblPolesDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblPole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblPolesDetail">
+              <PropertyRef Name="PolesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSubMenu_tblRoles">
+          <End Type="CellPhoneVotingModel.tblRole" Role="tblRole" Multiplicity="0..1" />
+          <End Type="CellPhoneVotingModel.tblSubMenu" Role="tblSubMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblSubMenu">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CellPhoneVotingModelStoreContainer" CdmEntityContainer="CellPhoneVotingEntities">
+          <EntitySetMapping Name="tblLogins">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblLogin">
+              <MappingFragment StoreEntitySet="tblLogin">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMainMenus">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblMainMenu">
+              <MappingFragment StoreEntitySet="tblMainMenu">
+                <ScalarProperty Name="MainMenu" ColumnName="MainMenu" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPoles">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblPole">
+              <MappingFragment StoreEntitySet="tblPoles">
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="PloesName" ColumnName="PloesName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPolesDetails">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblPolesDetail">
+              <MappingFragment StoreEntitySet="tblPolesDetails">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+                <ScalarProperty Name="PolesId" ColumnName="PolesId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRoles">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblRole">
+              <MappingFragment StoreEntitySet="tblRoles">
+                <ScalarProperty Name="RolesName" ColumnName="RolesName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSubMenus">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblSubMenu">
+              <MappingFragment StoreEntitySet="tblSubMenu">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="MainMenuId" ColumnName="MainMenuId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="SubMenu" ColumnName="SubMenu" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblVotes">
+            <EntityTypeMapping TypeName="CellPhoneVotingModel.tblVote">
+              <MappingFragment StoreEntitySet="tblVotes">
+                <ScalarProperty Name="VoteTime" ColumnName="VoteTime" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PolesDetailsId" ColumnName="PolesDetailsId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
